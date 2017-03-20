@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "deploy": "gcloud app deploy app.yaml",
+    "deploy": "gcloud app deploy",
   },
   "dependencies": {
     "bluetooth-serial-port": "^2.1.1",

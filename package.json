@@ -16,9 +16,11 @@
   "main": "./lib/bluetooth-serial-port.js",
   "dependencies": {
     "@google/cloud-errors": "^0.1.1",
+    "appengine": "git://github.com/GoogleCloudPlatform/appengine-nodejs.git",
     "bindings": "1.2.x",
-    "bluetooth-serial-port": "^2.1.1",
     "express": "3.x",
+    "gcloud": "latest",
+    "googleapis": "latest",
     "nan": "latest",
     "socket.io": "0.9.16"
   },

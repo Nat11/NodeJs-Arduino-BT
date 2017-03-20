@@ -11,8 +11,13 @@ var bodyParser = require('body-parser');
 
 var jsonRes;
 
+const appServer = server.listen(process.env.PORT || 3000, () => {
+    const port = appServer.address().port;
+    console.log(`App listening on port ${port}`);
+});
 
-server.listen(3000);
+
+//server.listen(3000);
 app.use(express.static(__dirname));
 
 

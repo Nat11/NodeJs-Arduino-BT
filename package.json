@@ -3,6 +3,10 @@
   "description": "",
   "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "deploy": "gcloud app deploy app.yaml",
+  },
   "dependencies": {
     "bluetooth-serial-port": "^2.1.1",
     "express": "3.x",

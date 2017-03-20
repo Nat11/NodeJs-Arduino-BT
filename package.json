@@ -8,13 +8,21 @@
     "url": "https://github.com/Nat11/NodeJs-Arduino-BT"
   },
   "scripts": {
+	"install": "node-gyp configure build",
+    "install-debug": "node-gyp configure build --debug",
     "start": "node server.js",
     "deploy": "gcloud app deploy"
   },
+   "main": "./lib/bluetooth-serial-port.js",
+
   "dependencies": {
     "bluetooth-serial-port": "^2.1.1",
     "express": "3.x",
-    "socket.io": "0.9.16"
+    "socket.io": "0.9.16",
+	"bindings": "1.2.x",
+    "nan": "latest"
+  },
+  "directories": {
+    "lib": "./lib"
   }
-
 }

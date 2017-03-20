@@ -20,9 +20,6 @@ const appServer = server.listen(process.env.PORT || 3000, () => {
 //server.listen(3000);
 app.use(express.static(__dirname));
 
-
-
-
 io.sockets.on('connection', function (socket) {
 
 	socket.on('search_Bluetooth', function(data){

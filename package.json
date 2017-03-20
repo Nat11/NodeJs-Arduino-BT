@@ -3,9 +3,13 @@
   "description": "",
   "version": "0.0.1",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Nat11/NodeJs-Arduino-BT"
+  },
   "scripts": {
     "start": "node server.js",
-    "deploy": "gcloud app deploy",
+    "deploy": "gcloud app deploy"
   },
   "dependencies": {
     "bluetooth-serial-port": "^2.1.1",

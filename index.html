@@ -1,0 +1,54 @@
+<!Doctype htlm>
+<html>
+	<head>
+		<title>Bluetooth Web-app</title>
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="/bower_components/jquery/dist/jquery.js"></script>
+	</head>
+	<body>
+		<h1>Bluetooth Web-app</h1>
+		<button>Search Bluetooth devices</button>
+		<ul>
+
+		</ul>
+		<input>
+
+		<script type="text/javascript">
+  			var socket = io.connect('http://localhost');
+
+			socket.on('search_Bluetooth_stopped', function(){
+				$('button').html('Search Bluetooth devices');
+			})
+
+			socket.on('connected_Bluetooth', function(data){
+				var element = $('.connect-device[data-address="'+data.address+'"]')
+				element.html(element[0].innerText + ' <b class="label label-success">live</b>');
+			})
+
+			socket.on('device', function(data){
+				$('ul').append('<li><a class="connect-device" data-address ="'+ data.address +'">'+ data.name +'</li>');
+				$('.connect-device').on('click',function(event){
+
+					var address = $(event.target).attr('data-address');
+					socket.emit('open_Bluetooth_Connection', address);
+				})
+			});
+			socket.on('informations', function(message) {
+        alert('Le serveur a un message pour vous : ' + message);
+
+
+    })
+
+			$('button').on('click', function(event){
+				event.preventDefault();
+				$('button').html('Scanning');
+				$('.bluetoothList').html('');
+				socket.emit('search_Bluetooth',"new");
+			});
+			$('input').on('submit', function (){
+
+			})
+			socket.emit('search_Bluetooth',"");
+		</script>
+	</body>
+</html>

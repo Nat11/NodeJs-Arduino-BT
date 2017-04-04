@@ -1,17 +1,87 @@
-<!Doctype htlm>
+<!Doctype html>
 <html>
 	<head>
-		<title>Bluetooth Web-app</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+		<title>Bluetooth Weather Station</title>
+
+		<!-- Add to homescreen for Chrome on Android -->
+		<meta name="mobile-web-app-capable" content="yes">
+		<link rel="icon" sizes="192x192" href="/styles/images/android-desktop.png">
+
+		<!-- Add to homescreen for Safari on iOS -->
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-title" content="Material Design Lite">
+		<link rel="apple-touch-icon-precomposed" href="/styles/images/ios-desktop.png">
+
+		<!-- Tile icon for Win8 (144x144 + tile color) -->
+		<meta name="msapplication-TileImage" content="/styles/images/touch/ms-touch-icon-144x144-precomposed.png">
+		<meta name="msapplication-TileColor" content="#3372DF">
+
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="/bower_components/jquery/dist/jquery.js"></script>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.deep_purple-pink.min.css">
+		<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+		<link rel="stylesheet" href="/styles/styles.css">
+		<style>
+		#view-source {
+			position: fixed;
+			display: block;
+			right: 0;
+			bottom: 0;
+			margin-right: 40px;
+			margin-bottom: 40px;
+			z-index: 900;
+		}
+		</style>
 	</head>
-	<body>
-		<h1>Bluetooth Web-app</h1>
-		<button>Search Bluetooth devices</button>
-		<ul>
 
-		</ul>
-		<input>
+	<body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+        </div>
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+					<h3>Bluetooth Weather Station</h3>
+        </div>
+				<div class="mdl-layout--large-screen-only mdl-layout__header-row">
+				</div>
+      </header>
+
+			<main class="mdl-layout__content">
+				<div class="mdl-layout__tab-panel is-active" id="overview">
+
+					<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+						<div class="mdl-card mdl-cell mdl-cell--12-col">
+							<div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
+								<h4 class="mdl-cell mdl-cell--12-col">Search for Bluetooth devices</h4>
+								<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Scan</button>
+								<ul id="listDevices">
+								</ul>
+							</div>
+						</div>
+					</section>
+				</div>
+			</main>
+
+			<footer class="mdl-mini-footer">
+				<div class="mdl-mini-footer--bottom-section">
+					<div class="mdl-logo">
+						More Information
+					</div>
+					<ul class="mdl-mini-footer--link-list">
+						<li>EISTI</li>
+						<li>NFC Interactive</li>
+					</ul>
+				</div>
+			</footer>
+
+			</div>
 
 		<script type="text/javascript">
   			var socket = io.connect('http://localhost');
@@ -26,7 +96,7 @@
 			})
 
 			socket.on('device', function(data){
-				$('ul').append('<li><a class="connect-device" data-address ="'+ data.address +'">'+ data.name +'</li>');
+				$('#listDevices').append('<li><a class="connect-device" data-address ="'+ data.address +'">'+ data.name +'</li>');
 				$('.connect-device').on('click',function(event){
 
 					var address = $(event.target).attr('data-address');
@@ -34,8 +104,6 @@
 				})
 			});
 			socket.on('informations', function(message) {
-        alert('Le serveur a un message pour vous : ' + message);
-
 
     })
 
@@ -45,9 +113,7 @@
 				$('.bluetoothList').html('');
 				socket.emit('search_Bluetooth',"new");
 			});
-			$('input').on('submit', function (){
 
-			})
 			socket.emit('search_Bluetooth',"");
 		</script>
 	</body>

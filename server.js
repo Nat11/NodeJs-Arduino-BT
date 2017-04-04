@@ -2,6 +2,7 @@ var express = require('express')
   , app = express()
   , server = require('http').createServer(app)
   , io = require('socket.io').listen(server)
+  , path = require('path')
   , BTSP = require('bluetooth-serial-port')
   , BTserial = new BTSP.BluetoothSerialPort()
   , fs = require('fs')
@@ -9,16 +10,13 @@ var express = require('express')
 var bodyParser = require('body-parser');
 
 
-var jsonRes;
+var jsonRes = "";
 
-const appServer = server.listen(process.env.PORT || 3000, () => {
-    const port = appServer.address().port;
-    console.log(`App listening on port ${port}`);
-});
-
-
-//server.listen(3000);
+server.listen(80);
 app.use(express.static(__dirname));
+
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
 
 io.sockets.on('connection', function (socket) {
 
@@ -82,30 +80,30 @@ io.sockets.on('connection', function (socket) {
             });
     })
 
-
     var dataBuffer = "";
     BTserial.on('data', function(buffer) {
       var res = "";
 
     	dataBuffer = dataBuffer + buffer.toString('utf8');
-      console.log("databuffer: "+dataBuffer);
 
+      //regex to extract last json object sent from bt shield
       res = dataBuffer.match('{(?!.*{).*}');
-      console.log("resultat: "+res);
+      console.log("resultat: "+ res);
+      //parse json object
+      jsonRes = JSON.parse(res);
+      //send data to client
+      socket.emit('informations', res);
 
+      app.get('/infosJson', function (request, response) {
+          response.json({jsonRes});
+      });
 
-
-        jsonRes = JSON.parse(res);
-        console.log("temperature: "+jsonRes);
-        socket.emit('informations',res);
-        app.get('/temp', function (request, response) {
-            response.json({jsonRes});
+      app.get('/infos', function (request, response) {
+        response.render(__dirname + '/views/infos', {
+                temp: jsonRes.Temperature,
+                hum: jsonRes.Humidity,
+                dust: jsonRes.Dust
         });
-
-
-
-
-
-
+      });
 	});
 });
